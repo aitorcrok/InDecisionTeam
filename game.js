@@ -1,4 +1,4 @@
-import Player from '/Player.js'
+import Player from '/player.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -9,18 +9,17 @@ export default class Game extends Phaser.Scene {
 
   create() {
     var senor = new Player(this);
-    this.d = this.input.keyboard.addKey('D');
-    this.a = this.input.keyboard.addKey('A');
-    this.d.on('down', event => {senor.speedX = 5});
-    this.a.on('down', event => {senor.speedX = -5});
+    // this.d = this.input.keyboard.addKey('D');
+    // this.a = this.input.keyboard.addKey('A');
+    // this.d.on('down', event => {senor.setVelocityX(1)});
+    // this.a.on('down', event => {senor.setVelocityX(-1)});
   }
 
   update(time, delta) {
-  //   if(!this.a.isDown && !this.d.isDown){
-  //     if(Phaser.Input.Keyboard.JustUp(this.a) || Phaser.Input.Keyboard.JustUp(this.a)){
-  //       senor.speedX = 0;
-  //     }
-  //    }
-
-  // }
+    // if(!this.a.isDown && !this.d.isDown){
+    //   if(Phaser.Input.Keyboard.JustUp(this.a) || Phaser.Input.Keyboard.JustUp(this.a)){
+    //     this.senor.setVelocityX(0);
+    //   }
+    //  }
+  }
 }
