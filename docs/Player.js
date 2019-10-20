@@ -14,5 +14,5 @@ export default class Player extends Ship{
         this.a.on('up', event => {if(this.body.velocity.x < 0)this.setVelocityX(0)});
         this.s.on('up', event => {if(this.body.velocity.y > 0)this.setVelocityY(0)});
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
-    }
+    }//2
 }
