@@ -1,21 +1,18 @@
-export default class Player extends Phaser.GameObjects.Sprite{
+import Ship from '/ship.js';
+export default class Player extends Ship{
     constructor(scene){
-        let x = Math.random() * 400;
-        let y = Math.random() * 400;
-        super(scene, x, y, 'testo');
-        this.scene.add.existing(this);
-        // this.scene.physics.add.existing(this);
-        // this.body.ignoreGravity = true;
-        this.speed = 5;
-        this.speedX = 0;
-    }
-    // function getSpeed() {
-    //     return speed;
-    // }
-    preUpdate(){
-        this.y = this.y + this.speed;
-        this.x = this.x + this.speedX;
-        if(this.y > 800){this.y = 0; this.x = Math.random() * 1400;this.speed = Math.random()*10;} 
-        if(this.x > 1400)this.x = 0;
+        super(scene, 400, 400, 300, 'testo')
+        this.d = this.scene.input.keyboard.addKey('D');
+        this.a = this.scene.input.keyboard.addKey('A');
+        this.s = this.scene.input.keyboard.addKey('S');
+        this.w = this.scene.input.keyboard.addKey('W');
+        this.d.on('down', event => {this.setVelocityX(1)});
+        this.a.on('down', event => {this.setVelocityX(-1)});
+        this.s.on('down', event => {this.setVelocityY(1)});
+        this.w.on('down', event => {this.setVelocityY(-1)});
+        this.d.on('up', event => {if(this.body.velocity.x > 0)this.setVelocityX(0)});
+        this.a.on('up', event => {if(this.body.velocity.x < 0)this.setVelocityX(0)});
+        this.s.on('up', event => {if(this.body.velocity.y > 0)this.setVelocityY(0)});
+        this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
     }
 }
