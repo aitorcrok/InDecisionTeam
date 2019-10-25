@@ -1,25 +1,20 @@
 import Player from '/InDecisionTeam/Player.js'
+import Enemy from '/InDecisionTeam/enemy.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
     this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
+    this.load.image('enemy', '/InDecisionTeam/sprites/enemy.png');
+    this.load.image('bullet', '/InDecisionTeam/sprites/bullet.png');//sprite bolita
   }
 
   create() {
     var senor = new Player(this);
-    // this.d = this.input.keyboard.addKey('D');
-    // this.a = this.input.keyboard.addKey('A');
-    // this.d.on('down', event => {senor.setVelocityX(1)});
-    // this.a.on('down', event => {senor.setVelocityX(-1)});
+    var enemy = new Enemy(this);
   }
 
   update(time, delta) {
-    // if(!this.a.isDown && !this.d.isDown){
-    //   if(Phaser.Input.Keyboard.JustUp(this.a) || Phaser.Input.Keyboard.JustUp(this.a)){
-    //     this.senor.setVelocityX(0);
-    //   }
-    //  }
   }
 }
