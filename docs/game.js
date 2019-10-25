@@ -1,10 +1,10 @@
-import Player from '/Player.js'
+import Player from '/InDecisionTeam/Player.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/sprites/favicon.png');
+    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
   }
 
   create() {
