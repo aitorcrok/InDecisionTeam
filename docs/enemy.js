@@ -1,5 +1,5 @@
-import Ship from '/InDecisionTeam/ship.js';
-import Bullet from '/InDecisionTeam/bullet.js'
+import Ship from '/ship.js';
+import Bullet from '/bullet.js'
 export default class Enemy extends Ship{
     constructor(scene){
         super(scene, 500, 500, 0, 'enemy', 3);
