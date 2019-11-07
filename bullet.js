@@ -6,7 +6,13 @@ export default class Bullet extends Phaser.GameObjects.Sprite{
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.speed = newSpeed;
-        this.setScale(0.05);
+        this.setScale(0.5);
+        this.body.setVelocity(0, this.speed);
     }
-
+    preUpdate(){
+        if(this.y > 800){//Ponerlo no-a-pelo
+            console.log("a");
+            this.destroy();
+        }
+    }
 }

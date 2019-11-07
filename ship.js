@@ -16,6 +16,7 @@ export default class Ship extends Phaser.GameObjects.Sprite{
     }
     setVelocityX(x){
         this.body.setVelocity(this.speed * x, this.body.velocity.y);
+        console.log("set");
     }
     setVelocityY(y){
         this.body.setVelocity(this.body.velocity.x, this.speed * y);
