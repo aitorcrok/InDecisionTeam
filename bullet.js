@@ -6,8 +6,11 @@ export default class Bullet extends Phaser.GameObjects.Sprite{
         this.scene.bulletPool.add(this.scene.add.existing(this));
         this.scene.physics.add.existing(this);
         this.speed = newSpeed;
-        this.setScale(0.5);
+        this.setScale(0.1);
         this.body.setVelocity(0, this.speed);
+        this.body.setCollideWorldBounds(true);
+        this.body.setBounce(1);
+        this.body.immovable = true;
     }
     preUpdate(){
         if(this.y > 800){//Ponerlo no-a-pelo

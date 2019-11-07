@@ -14,5 +14,12 @@ export default class Player extends Ship{
         this.a.on('up', event => {if(this.body.velocity.x < 0)this.setVelocityX(0)});
         this.s.on('up', event => {if(this.body.velocity.y > 0)this.setVelocityY(0)});
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
+
+        this.estado = false;
+        this.p = this.scene.input.keyboard.addKey('P');
+        this.p.on('down', event => {this.estado = true});
+        this.p.on('up', event => {this.estado = false});
+
+        this.body.immovable = true;
     }
 }
