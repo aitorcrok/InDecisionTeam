@@ -11,6 +11,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.bulletPool = this.add.group();
     var senor = new Player(this);
     var enemy = new Enemy(this);
   }
