@@ -38,6 +38,10 @@ export default class Game extends Phaser.Scene {
         bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
       }
     }
+    else{
+      bullet.destroy();
+      senor.health--;
+    }
 
   }
 
