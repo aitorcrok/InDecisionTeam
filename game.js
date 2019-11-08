@@ -13,34 +13,40 @@ export default class Game extends Phaser.Scene {
   create() {
     this.physics.world.setBoundsCollision(true, true, false, false);
     this.bulletPool = this.add.group();
+    this.returnedBulletPool = this.add.group();
+    this.enemyPool = this.add.group();
     this.senor = new Player(this);
-    this.enemy = new Enemy(this);
-    this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this);
-    
+    this.enemyPool.add(new Enemy(this, 200, 100));
+    this.enemyPool.add(new Enemy(this, 400, 100));
+    this.enemyPool.add(new Enemy(this, 600, 100));
+    this.enemyPool.add(new Enemy(this, 800, 100));
+    this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
+    this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
   }
 
  
 
-  hitBullet(bullet, senor){
+  hitBullet(bullet, ship){
 
-    if(senor.estado == true){
+    if(ship.estado == true){
       var desvio = 0;
-      if(bullet.x < senor.x){
-
-        desvio = senor.x -bullet.x;
+      if(bullet.x < ship.x){
+        desvio = ship.x -bullet.x;
         bullet.body.setVelocity(-10*desvio, -bullet.speed);
       }
-      else if(bullet.x > senor.x){
-        desvio = bullet.x - senor.x;
+      else if(bullet.x > ship.x){
+        desvio = bullet.x - ship.x;
         bullet.body.setVelocity(10*desvio, -bullet.speed);
       }
       else{
         bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
       }
+      this.bulletPool.remove(bullet);
+      this.returnedBulletPool.add(bullet);
     }
     else{
       bullet.destroy();
-      senor.health--;
+      ship.receiveDamage();
     }
 
   }

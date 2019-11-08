@@ -13,8 +13,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite{
         this.body.immovable = true;
     }
     preUpdate(){
-        if(this.y > 800){//Ponerlo no-a-pelo
-            console.log("a");
+        if(this.y > 800 || this.y < 0){//Ponerlo no-a-pelo
             this.destroy();
         }
     }
