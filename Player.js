@@ -1,7 +1,7 @@
 import Ship from '/ship.js';
 export default class Player extends Ship{
     constructor(scene){
-        super(scene, 400, 400, 300, 'testo', 3)
+        super(scene, 400, 400, 300, 'testo', 100)
         this.d = this.scene.input.keyboard.addKey('D');
         this.a = this.scene.input.keyboard.addKey('A');
         this.s = this.scene.input.keyboard.addKey('S');
@@ -17,22 +17,23 @@ export default class Player extends Ship{
         this.parryCD = false;
         this.estado = false;
         this.p = this.scene.input.keyboard.addKey('P');
-        //this.p.on('down', event => {if(!this.parryCD)this.parry()});
+        this.p.on('down', event => {if(!this.parryCD)this.parry()});
         //this.p.on('up', event => {this.estado = false});
     }
     preUpdate(){
-        if(this.p.isDown && this.scene.input.keyboard.DownDuration(this.p,5000)){
-            this.estado = true;
-        } else this.estado = false;
+        // if((!this.estado && !Phaser.Input.Keyboard.UpDuration(this.p, 1500)) || Phaser.Input.Keyboard.DownDuration(this.p, 1500)){
+        //     this.estado = true;
+        // } else {this.estado = false;}
+        console.log(this.estado);
     }
     parry(){
         this.estado = true;
         this.parryCD = true;
-        var timer = this.scene.time.delayedCall(500, this.cdParry, null, this);
+        var timer = this.scene.time.delayedCall(1500, this.cdParry, null, this);
     }
     cdParry(){
         this.estado = false;
-        var timer = this.scene.time.delayedCall(300, this.resetParry, null, this);
+        var timer = this.scene.time.delayedCall(3000, this.resetParry, null, this);
     }
     resetParry(){
         this.parryCD = false;
