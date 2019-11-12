@@ -1,8 +1,9 @@
 import Ship from '/ship.js';
 import Bullet from '/bullet.js'
 export default class Enemy extends Ship{
-    constructor(scene, x, y){
+    constructor(scene, x, y,divide){
         super(scene, x, y, 0, 'enemy', 1);
+        this.divide = divide;
         this.setScale(0.2);
         this.time = 0;
         this.delayShots = Math.random() * (500 - 1000) + 1000;
@@ -29,5 +30,5 @@ export default class Enemy extends Ship{
             this.stopShoot();
             this.destroy();
         }
-    }
+    }    
 }

@@ -16,10 +16,10 @@ export default class Game extends Phaser.Scene {
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
     this.senor = new Player(this);
-    this.enemyPool.add(new Enemy(this, 200, 100));
-    this.enemyPool.add(new Enemy(this, 400, 100));
-    this.enemyPool.add(new Enemy(this, 600, 100));
-    this.enemyPool.add(new Enemy(this, 800, 100));
+    this.enemyPool.add(new Enemy(this, 200, 100,true));
+    this.enemyPool.add(new Enemy(this, 400, 100, false));
+    this.enemyPool.add(new Enemy(this, 600, 100, true));
+    this.enemyPool.add(new Enemy(this, 800, 100, false));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
   }
@@ -46,10 +46,21 @@ export default class Game extends Phaser.Scene {
     }
     else{
       bullet.destroy();
-      ship.receiveDamage();
+      if(ship.divide){
+        this.divide(ship);
+      }
+      ship.receiveDamage();      
     }
 
   }
+
+  divide(enemy)
+  {
+    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false));
+    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false));
+  }
+
+  
 
   update(time, delta) {
   }
