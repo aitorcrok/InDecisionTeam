@@ -22,6 +22,10 @@ export default class Game extends Phaser.Scene {
     this.enemyPool.add(new Enemy(this, 800, 100, false));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
+    this.wall = this.physics.add.sprite(0, 400, 'testo');
+    this.wall.body.width = 800;
+    this.wall.setImmovable(true);
+    //this.physics.add.collider(this.wall,this.senor); 
   }
 
  

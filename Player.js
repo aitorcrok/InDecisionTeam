@@ -24,8 +24,6 @@ export default class Player extends Ship{
             this.parry = true;
             this.cooldown = 3000;
         } else if(this.cooldown < 1500) this.parry = false;
-        console.log(this.parry);
-        console.log(Math.max(0, this.cooldown - dt));
     }
     parry(){
         this.parry = true;
