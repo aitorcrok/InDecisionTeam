@@ -8,11 +8,14 @@ export default class Game extends Phaser.Scene {
     this.load.image('testo', '/sprites/favicon.png');
     this.load.image('enemy', '/sprites/enemy.png');
     this.load.image('bullet', '/sprites/bullet.png');//sprite bolita    
+    this.load.image('coin', '/sprites/coin.png');
   }
 
   create() {
+    this.score = 0;
     this.physics.world.setBoundsCollision(true, true, false, false);
     this.bulletPool = this.add.group();
+    this.coinPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
     this.senor = new Player(this);
@@ -22,13 +25,14 @@ export default class Game extends Phaser.Scene {
     this.enemyPool.add(new Enemy(this, 800, 100, false));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
+    this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
   }
 
  
 
   hitBullet(bullet, ship){
 
-    if(ship.parry == true){
+    if(ship.parry){
       var desvio = 0;
       if(bullet.x < ship.x){
         desvio = ship.x -bullet.x;
@@ -52,6 +56,15 @@ export default class Game extends Phaser.Scene {
       ship.receiveDamage();      
     }
 
+  }
+  collectCoins(coin, player)
+  {
+    this.score += coin.value;  
+    this.coinPool.remove(coin);
+    coin.destroy();
+    console.log(this.score);
+    // console.log(player);
+          
   }
 
   divide(enemy)

@@ -1,5 +1,6 @@
 import Ship from '/ship.js';
 import Bullet from '/bullet.js'
+import Coin from '/coin.js'
 export default class Enemy extends Ship{
     constructor(scene, x, y,divide){
         super(scene, x, y, 0, 'enemy', 1);
@@ -19,16 +20,22 @@ export default class Enemy extends Ship{
         });
     }
     shoot(){
-        var bu = new Bullet(this.scene, this.x, this.y, 500, 'bullet');
+        var bu = new Bullet(this.scene, this.x, this.y, 500, 'bullet');        
     }
     stopShoot(){
         this.timer.remove();
     }
-    receiveDamage(){
+    receiveDamage(){        
         this.health--;
-        if(this.health == 0){
+        if(this.health == 0){            
             this.stopShoot();
+            this.spawnCoins();            
             this.destroy();
         }
-    }    
+    }
+    
+    spawnCoins(){
+        var coin = new Coin(this.scene, this.x, this.y, 400, 'coin');
+        console.log("coin");
+    }
 }
