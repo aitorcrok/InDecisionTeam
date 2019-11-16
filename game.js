@@ -28,7 +28,7 @@ export default class Game extends Phaser.Scene {
 
   hitBullet(bullet, ship){
 
-    if(ship.estado == true){
+    if(ship.parry == true){
       var desvio = 0;
       if(bullet.x < ship.x){
         desvio = ship.x -bullet.x;
