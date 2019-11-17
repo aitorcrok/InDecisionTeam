@@ -1,6 +1,6 @@
-import Ship from '/ship.js';
-import Bullet from '/bullet.js'
-import Coin from '/coin.js'
+import Ship from '/InDecisionTeam/ship.js';
+import Bullet from '/InDecisionTeam/bullet.js'
+import Coin from '/InDecisionTeam/coin.js'
 export default class Enemy extends Ship{
     constructor(scene, x, y,divide){
         super(scene, x, y, 0, 'enemy', 1);
