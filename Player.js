@@ -1,4 +1,4 @@
-import Ship from '/ship.js';
+import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
         super(scene, 400, 400, 300, 'testo', 100)

@@ -1,14 +1,14 @@
-import Player from '/Player.js'
-import Enemy from '/enemy.js'
+import Player from '/InDecisionTeam/Player.js'
+import Enemy from '/InDecisionTeam/enemy.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/sprites/favicon.png');
-    this.load.image('enemy', '/sprites/enemy.png');
-    this.load.image('bullet', '/sprites/bullet.png');//sprite bolita    
-    this.load.image('coin', '/sprites/coin.png');
+    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
+    this.load.image('enemy', '/InDecisionTeam/sprites/enemy.png');
+    this.load.image('bullet', '/InDecisionTeam/sprites/bullet.png');//sprite bolita    
+    this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
   }
 
   create() {
