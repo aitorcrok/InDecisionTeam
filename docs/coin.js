@@ -1,20 +1,20 @@
-export default class Bullet extends Phaser.GameObjects.Sprite{
+export default class Coin extends Phaser.GameObjects.Sprite{
     constructor(scene, newX, newY,newSpeed,sprite){
         let x = newX;
         let y = newY;
         super(scene, x, y, sprite);
-        this.scene.bulletPool.add(this.scene.add.existing(this));
+        this.scene.coinPool.add(this.scene.add.existing(this));
         this.scene.physics.add.existing(this);
         this.speed = newSpeed;
         this.setScale(0.1);
         this.body.setVelocity(0, this.speed);
-        this.body.setCollideWorldBounds(true);
-        this.body.setBounce(1);
-        this.body.immovable = true;
+        this.value = 5;
+        this.body.immovable = true;       
     }
     preUpdate(){
-        if(this.y > 800 || this.y < 0){//Ponerlo no-a-pelo
+        if(this.y > 800 || this.y < 0){
             this.destroy();
         }
     }
+    
 }
