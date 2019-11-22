@@ -1,5 +1,6 @@
 import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
+import Coin from '/InDecisionTeam/coin.js';
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -18,6 +19,7 @@ export default class Game extends Phaser.Scene {
     this.coinPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
+    this.coinO = new Coin(this, 400, 200, 0, 'coin');
     this.senor = new Player(this);
     this.enemyPool.add(new Enemy(this, 200, 100,true));
     this.enemyPool.add(new Enemy(this, 400, 100, false));
@@ -57,14 +59,12 @@ export default class Game extends Phaser.Scene {
     }
 
   }
-  collectCoins(coin, player)
+  collectCoins(coinK)
   {
-    this.score += coin.value;  
-    this.coinPool.remove(coin);
-    coin.destroy();
-    console.log(this.score);
-    // console.log(player);
-          
+    this.score += coinK.value;  
+    this.coinPool.remove(coinK);
+    coinK.destroy();
+    console.log(this.score);          
   }
 
   divide(enemy)
