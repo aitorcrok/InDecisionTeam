@@ -1,20 +1,25 @@
-import Player from '/Player.js'
-import Enemy from '/enemy.js'
+import Player from '/InDecisionTeam/Player.js'
+import Enemy from '/InDecisionTeam/enemy.js'
+import Coin from '/InDecisionTeam/coin.js';
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/sprites/favicon.png');
-    this.load.image('enemy', '/sprites/enemy.png');
-    this.load.image('bullet', '/sprites/bullet.png');//sprite bolita    
+    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
+    this.load.image('enemy', '/InDecisionTeam/sprites/enemy.png');
+    this.load.image('bullet', '/InDecisionTeam/sprites/bullet.png');//sprite bolita    
+    this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
   }
 
   create() {
+    this.score = 0;
     this.physics.world.setBoundsCollision(true, true, false, false);
     this.bulletPool = this.add.group();
+    this.coinPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
+    this.coinO = new Coin(this, 400, 200, 0, 'coin');
     this.senor = new Player(this);
     this.enemyPool.add(new Enemy(this, 200, 100,true));
     this.enemyPool.add(new Enemy(this, 400, 100, false));
@@ -22,17 +27,14 @@ export default class Game extends Phaser.Scene {
     this.enemyPool.add(new Enemy(this, 800, 100, false));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
-    this.wall = this.physics.add.sprite(0, 400, 'testo');
-    this.wall.body.width = 800;
-    this.wall.setImmovable(true);
-    //this.physics.add.collider(this.wall,this.senor); 
+    this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
   }
 
  
 
   hitBullet(bullet, ship){
 
-    if(ship.parry == true){
+    if(ship.parry){
       var desvio = 0;
       if(bullet.x < ship.x){
         desvio = ship.x -bullet.x;
@@ -56,6 +58,13 @@ export default class Game extends Phaser.Scene {
       ship.receiveDamage();      
     }
 
+  }
+  collectCoins(coinK)
+  {
+    this.score += coinK.value;  
+    this.coinPool.remove(coinK);
+    coinK.destroy();
+    console.log(this.score);          
   }
 
   divide(enemy)

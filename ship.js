@@ -1,15 +1,12 @@
-export default class Ship extends Phaser.GameObjects.Sprite{
+import Entity from '/InDecisionTeam/entity.js';
+export default class Ship extends Entity{
     constructor(scene, newX, newY, newSpeed, sprite, newHealth){
-        let x = newX;
-        let y = newY;
-        super(scene, x, y, sprite);
+        super(scene, newX, newY, 0, sprite);
         this.scene.add.existing(this);
-        this.scene.physics.add.existing(this);
-        this.speed = newSpeed;
         this.health = newHealth;
+        this.speed = newSpeed;
         this.body.setCollideWorldBounds(true);
         this.body.setMaxSpeed(this.speed);
-        this.body.immovable = true;
     }
     preUpdate(){
     }

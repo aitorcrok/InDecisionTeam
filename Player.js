@@ -1,4 +1,4 @@
-import Ship from '/ship.js';
+import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
         super(scene, 400, 400, 300, 'testo', 100)
@@ -16,25 +16,15 @@ export default class Player extends Ship{
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
         this.parry = false;
         this.cooldown = 0;
+        this.parryAT = 1500;    //active time
+        this.parryCD = 3000;    //cooldown
         this.p = this.scene.input.keyboard.addKey('P');
     }
     preUpdate(t, dt){
         this.cooldown = Math.max(0, this.cooldown - dt);
         if(this.p.isDown && this.cooldown == 0){
             this.parry = true;
-            this.cooldown = 3000;
-        } else if(this.cooldown < 1500) this.parry = false;
-    }
-    parry(){
-        this.parry = true;
-        this.parryCD = true;
-        var timer = this.scene.time.delayedCall(500, this.cdParry, null, this);
-    }
-    cdParry(){
-        this.parry = false;
-        var timer = this.scene.time.delayedCall(300, this.resetParry, null, this);
-    }
-    resetParry(){
-        this.parryCD = false;
+            this.cooldown = this.parryCD;                               //despues de X ms puede volver a hacerlo
+        } else if(this.cooldown < this.parryAT) this.parry = false;     //después de X ms deja de devolver proyectiles
     }
 }
