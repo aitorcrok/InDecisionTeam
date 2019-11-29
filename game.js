@@ -1,6 +1,7 @@
 import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
+import HUD from '/InDecisionTeam/hud.js';
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -14,24 +15,50 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
+    this.level = 0;
+    this.HUD = new HUD();
+    this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
+    this.changingLevel = false; //variable para controlar el paso de nivel
     this.physics.world.setBoundsCollision(true, true, false, false);
     this.bulletPool = this.add.group();
     this.coinPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
-    this.coinO = new Coin(this, 400, 200, 0, 'coin');
     this.senor = new Player(this);
-    this.enemyPool.add(new Enemy(this, 200, 100,true));
-    this.enemyPool.add(new Enemy(this, 400, 100, false));
-    this.enemyPool.add(new Enemy(this, 600, 100, true));
-    this.enemyPool.add(new Enemy(this, 800, 100, false));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
   }
-
- 
-
+  update(time, deltaTime){
+    if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
+      this.level++;
+      this.time.delayedCall(this.changeLevel, this.createLevel, [this.level], this);
+      this.changingLevel = true;
+    }
+  }
+  createLevel(level){
+    switch(level){
+      case 1:
+          this.enemyPool.add(new Enemy(this, 400, 100, false));
+        break;
+      case 2:
+          this.enemyPool.add(new Enemy(this, 200, 100, true));
+          this.enemyPool.add(new Enemy(this, 400, 100, false));
+          this.enemyPool.add(new Enemy(this, 600, 100, true));
+          this.enemyPool.add(new Enemy(this, 800, 100, false));
+          break;
+      case 3:
+          this.enemyPool.add(new Enemy(this, 200, 100, true));
+          this.enemyPool.add(new Enemy(this, 400, 100, false));
+          this.enemyPool.add(new Enemy(this, 600, 100, true));
+          this.enemyPool.add(new Enemy(this, 800, 100, false));
+          this.enemyPool.add(new Enemy(this, 700, 250, false));
+          this.enemyPool.add(new Enemy(this, 500, 250, false));
+          this.enemyPool.add(new Enemy(this, 300, 250, false));
+          break;
+    }
+    this.changingLevel = false;
+  }
   hitBullet(bullet, ship){
 
     if(ship.parry){
@@ -71,10 +98,5 @@ export default class Game extends Phaser.Scene {
   {
     this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false));
     this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false));
-  }
-
-  
-
-  update(time, delta) {
   }
 }
