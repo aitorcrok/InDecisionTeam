@@ -6,10 +6,12 @@ export default class Game extends Phaser.Scene {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
-    this.load.image('enemy', '/InDecisionTeam/sprites/enemy.png');
-    this.load.image('bullet', '/InDecisionTeam/sprites/bullet.png');//sprite bolita    
+    this.load.image('testo', '/InDecisionTeam/sprites/player.png');
+    this.load.image('std_enemy', '/InDecisionTeam/sprites/std_enemy.png');
+    this.load.image('div_enemy', '/InDecisionTeam/sprites/div_enemy.png');
+    this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');    
     this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
+    this.load.image('raqueta', '/InDecisionTeam/sprites/raqueta.png');
   }
 
   create() {
@@ -21,10 +23,10 @@ export default class Game extends Phaser.Scene {
     this.enemyPool = this.add.group();
     this.coinO = new Coin(this, 400, 200, 0, 'coin');
     this.senor = new Player(this);
-    this.enemyPool.add(new Enemy(this, 200, 100,true));
-    this.enemyPool.add(new Enemy(this, 400, 100, false));
-    this.enemyPool.add(new Enemy(this, 600, 100, true));
-    this.enemyPool.add(new Enemy(this, 800, 100, false));
+    this.enemyPool.add(new Enemy(this, 200, 100,true,'div_enemy'));
+    this.enemyPool.add(new Enemy(this, 400, 100, false,'std_enemy'));
+    this.enemyPool.add(new Enemy(this, 600, 100, true,'div_enemy'));
+    this.enemyPool.add(new Enemy(this, 800, 100, false,'std_enemy'));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
@@ -69,8 +71,8 @@ export default class Game extends Phaser.Scene {
 
   divide(enemy)
   {
-    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false));
-    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false));
+    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy'));
+    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy'));
   }
 
   
