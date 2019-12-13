@@ -16,7 +16,7 @@ export default class Game extends Phaser.Scene {
   create() {
     this.score = 0;
     this.level = 0;
-    this.HUD = new HUD();
+    this.hud = this.add.text(20, 20, "Puntuación: " + this.score, {fontSize: '48px'}); 
     this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
     this.physics.world.setBoundsCollision(true, true, false, false);
@@ -28,13 +28,25 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
+    this.u = this.input.keyboard.addKey('U');
+    this.u.on('down', event => {this.change()});
   }
   update(time, deltaTime){
+    if(!this.changingScene && this.u.isDown){
+      this.changingScene = true;
+      this.change();
+  }
     if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
       this.level++;
       this.time.delayedCall(this.changeLevel, this.createLevel, [this.level], this);
       this.changingLevel = true;
     }
+  }
+  change(){
+    this.u.isDown = false;
+    this.changingScene = false;
+    this.scene.run("hud");
+    this.scene.sleep("main");
   }
   createLevel(level){
     switch(level){
@@ -88,7 +100,8 @@ export default class Game extends Phaser.Scene {
   }
   collectCoins(coinK)
   {
-    this.score += coinK.value;  
+    this.score += coinK.value; 
+    this.hud.setText("Puntuación: " + this.score);
     this.coinPool.remove(coinK);
     coinK.destroy();
     console.log(this.score);          
