@@ -2,16 +2,15 @@ import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
 import Asteroide from '/InDecisionTeam/asteroide.js'
-import HUD from '/InDecisionTeam/hud.js';
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
+    this.load.image('player', '/InDecisionTeam/sprites/player.png');
     this.load.image('std_enemy', '/InDecisionTeam/sprites/std_enemy.png');
     this.load.image('div_enemy', '/InDecisionTeam/sprites/div_enemy.png');
-    this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');//sprite bolita    
+    this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');
     this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
     this.load.image('asteroid', '/InDecisionTeam/sprites/asteroid.png');
   }
@@ -19,7 +18,7 @@ export default class Game extends Phaser.Scene {
   create() {
     this.score = 0;
     this.level = 0;
-    this.hud = this.add.text(20, 20, "Puntuación: " + this.score, {fontSize: '48px'}); 
+    this.scene.run("hud");
     this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
     this.physics.world.setBoundsCollision(true, true, false, false);
@@ -28,15 +27,17 @@ export default class Game extends Phaser.Scene {
     this.asteroidPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
-    this.senor = new Player(this);
-    this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
+    this.player = new Player(this);
+    this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
-    this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
+    this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.u = this.input.keyboard.addKey('U');
+    this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
+    this.t.on('down', event => {this.scene.manager.getScene("hud").metod()});
   }
   update(time, deltaTime){
-    if(!this.changingScene && this.u.isDown){
+    if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
       this.changingScene = true;
       this.change();
   }
@@ -46,13 +47,14 @@ export default class Game extends Phaser.Scene {
       this.changingLevel = true;
     }
   }
+  //cambia de escena
   change(){
     this.u.isDown = false;
     this.changingScene = false;
-    this.scene.run("hud");
+    this.scene.run("menu");
     this.scene.sleep("main");
   }
-  createLevel(level){
+  createLevel(level){   //Carga el nivel (mirar una forma mejor?)
     switch(level){
       case 1:
           this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
@@ -112,10 +114,10 @@ export default class Game extends Phaser.Scene {
   collectCoins(coinK)
   {
     this.score += coinK.value; 
-    this.hud.setText("Puntuación: " + this.score);
+    this.scene.manager.getScene("hud").updateScore(this.score);
+    //this.hud.setText("Puntuación: " + this.score);
     this.coinPool.remove(coinK);
-    coinK.destroy();
-    console.log(this.score);          
+    coinK.destroy();      
   }
 
   divide(enemy)
