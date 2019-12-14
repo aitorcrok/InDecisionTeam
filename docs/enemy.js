@@ -2,10 +2,10 @@ import Ship from '/InDecisionTeam/ship.js';
 import Bullet from '/InDecisionTeam/bullet.js'
 import Coin from '/InDecisionTeam/coin.js'
 export default class Enemy extends Ship{
-    constructor(scene, x, y,divide){
-        super(scene, x, y, 0, 'enemy', 1);
+    constructor(scene, x, y,divide,sprite){
+        super(scene, x, y, 0, sprite, 1);
         this.divide = divide;
-        this.setScale(0.2);
+        this.setScale(0.5);
         this.time = 0;
         this.delayShots = Math.random() * (500 - 1000) + 1000;
         console.log(this.delayShots);

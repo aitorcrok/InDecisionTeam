@@ -1,20 +1,8 @@
-export default class Coin extends Phaser.GameObjects.Sprite{
+import Entity from '/InDecisionTeam/entity.js';
+export default class Coin extends Entity{
     constructor(scene, newX, newY,newSpeed,sprite){
-        let x = newX;
-        let y = newY;
-        super(scene, x, y, sprite);
+        super(scene, newX, newY, newSpeed, sprite);
         this.scene.coinPool.add(this.scene.add.existing(this));
-        this.scene.physics.add.existing(this);
-        this.speed = newSpeed;
-        this.setScale(0.1);
-        this.body.setVelocity(0, this.speed);
-        this.value = 5;
-        this.body.immovable = true;       
+        this.value = 5;    
     }
-    preUpdate(){
-        if(this.y > 800 || this.y < 0){
-            this.destroy();
-        }
-    }
-    
 }

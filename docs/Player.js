@@ -1,7 +1,7 @@
 import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
-        super(scene, 400, 400, 300, 'testo', 100)
+        super(scene, 400, 400, 300, 'player', 3)
         this.d = this.scene.input.keyboard.addKey('D');
         this.a = this.scene.input.keyboard.addKey('A');
         this.s = this.scene.input.keyboard.addKey('S');
@@ -16,27 +16,27 @@ export default class Player extends Ship{
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
         this.parry = false;
         this.cooldown = 0;
-        this.p = this.scene.input.keyboard.addKey('P');
+        this.parryAT = 1500;    //active time
+        this.parryCD = 3000;    //cooldown
+        this.spacebar = this.scene.input.keyboard.addKey('SPACE');
+
     }
     preUpdate(t, dt){
         this.cooldown = Math.max(0, this.cooldown - dt);
-        if(this.p.isDown && this.cooldown == 0){
+        if(this.spacebar.isDown && this.cooldown == 0){
             this.parry = true;
-            this.cooldown = 3000;
-        } else if(this.cooldown < 1500) this.parry = false;
-        // console.log(this.parry);
-        // console.log(Math.max(0, this.cooldown - dt));
+            this.cooldown = this.parryCD;                               //despues de X ms puede volver a hacerlo
+        } else if(this.cooldown < this.parryAT) this.parry = false;     //después de X ms deja de devolver proyectiles
+        if(this.y < 500){   //habria que mirar como hacer esto menos horrible
+            this.y = 500;
+        }
     }
-    parry(){
-        this.parry = true;
-        this.parryCD = true;
-        var timer = this.scene.time.delayedCall(500, this.cdParry, null, this);
-    }
-    cdParry(){
-        this.parry = false;
-        var timer = this.scene.time.delayedCall(300, this.resetParry, null, this);
-    }
-    resetParry(){
-        this.parryCD = false;
+    receiveDamage(damage){
+        this.health -= damage;
+        this.scene.scene.manager.getScene("hud").updateHealth(this.health);
+        if(this.health <= 0){
+            this.destroy();
+            console.log("die");
+        }
     }
 }

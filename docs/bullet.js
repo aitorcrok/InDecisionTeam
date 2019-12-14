@@ -1,20 +1,10 @@
-export default class Bullet extends Phaser.GameObjects.Sprite{
+import Entity from '/InDecisionTeam/entity.js';
+export default class Bullet extends Entity{
     constructor(scene, newX, newY,newSpeed,sprite){
-        let x = newX;
-        let y = newY;
-        super(scene, x, y, sprite);
-        this.scene.bulletPool.add(this.scene.add.existing(this));
-        this.scene.physics.add.existing(this);
+        super(scene, newX, newY, newSpeed, sprite);
         this.speed = newSpeed;
-        this.setScale(0.1);
-        this.body.setVelocity(0, this.speed);
+        this.scene.bulletPool.add(this.scene.add.existing(this));
         this.body.setCollideWorldBounds(true);
         this.body.setBounce(1);
-        this.body.immovable = true;
-    }
-    preUpdate(){
-        if(this.y > 800 || this.y < 0){//Ponerlo no-a-pelo
-            this.destroy();
-        }
     }
 }
