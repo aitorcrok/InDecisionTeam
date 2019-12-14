@@ -4,7 +4,7 @@ import Coin from '/InDecisionTeam/coin.js';
 import Asteroide from '/InDecisionTeam/asteroide.js'
 export default class Game extends Phaser.Scene {
   constructor() {
-    super({ key: 'main' });
+    super({ key: 'game' });
   }
   preload() {  
     this.load.image('player', '/InDecisionTeam/sprites/player.png');

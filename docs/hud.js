@@ -13,7 +13,6 @@ export default class HUD extends Phaser.Scene {
     }
     updateScore(score){
         this.score.setText("Puntuación: " + score);
-        console.log(this.health.active);
     }
     updateHealth(health){
         switch(health){

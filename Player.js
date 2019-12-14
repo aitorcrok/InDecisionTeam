@@ -14,6 +14,8 @@ export default class Player extends Ship{
         this.a.on('up', event => {if(this.body.velocity.x < 0)this.setVelocityX(0)});
         this.s.on('up', event => {if(this.body.velocity.y > 0)this.setVelocityY(0)});
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
+        this.body.setSize(42, 22, false);           //Ajusta la caja de colisiones
+        this.body.setOffset(21, 22);
         this.parry = false;
         this.cooldown = 0;
         this.parryAT = 1500;    //active time
@@ -24,6 +26,8 @@ export default class Player extends Ship{
     preUpdate(t, dt){
         this.cooldown = Math.max(0, this.cooldown - dt);
         if(this.spacebar.isDown && this.cooldown == 0){
+            this.body.setSize(42, 44, false);
+            this.body.setOffset(21, 0);
             this.nextFrame++;
             this.setFrame(this.nextFrame);
             this.parry = true;
@@ -31,14 +35,13 @@ export default class Player extends Ship{
         } else if(this.parry && this.cooldown < this.parryAT){
             this.parry = false;                                         //después de X ms deja de devolver proyectiles
             this.nextFrame = (this.nextFrame + 1) % 4;
-            this.setFrame(this.nextFrame);  
+            this.setFrame(this.nextFrame); 
+            this.body.setSize(42, 22, false);
+            this.body.setOffset(21, 22);
         }
         if(this.y < 500){   //habria que mirar como hacer esto menos horrible
             this.y = 500;
         }
-        // super.preUpdate(t, dt){
-
-        // }
     }
     receiveDamage(damage){
         this.health -= damage;
