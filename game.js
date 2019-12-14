@@ -1,22 +1,25 @@
 import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
+import Asteroide from '/asteroide.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
   preload() {  
-    this.load.image('testo', '/InDecisionTeam/sprites/favicon.png');
-    this.load.image('enemy', '/InDecisionTeam/sprites/enemy.png');
-    this.load.image('bullet', '/InDecisionTeam/sprites/bullet.png');//sprite bolita    
-    this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
+    this.load.image('testo', '/sprites/favicon.png');
+    this.load.image('enemy', '/sprites/enemy.png');
+    this.load.image('bullet', '/sprites/bullet.png');//sprite bolita    
+    this.load.image('coin', '/sprites/coin.png');
+    this.load.image('asteroid', '/sprites/asteroid.png');
   }
 
   create() {
     this.score = 0;
-    this.physics.world.setBoundsCollision(true, true, false, false);
+    this.physics.world.setBoundsCollision(true, true, false, false);    
     this.bulletPool = this.add.group();
     this.coinPool = this.add.group();
+    this.asteroidPool = this.add.group();
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
     this.coinO = new Coin(this, 400, 200, 0, 'coin');
@@ -25,9 +28,12 @@ export default class Game extends Phaser.Scene {
     this.enemyPool.add(new Enemy(this, 400, 100, false));
     this.enemyPool.add(new Enemy(this, 600, 100, true));
     this.enemyPool.add(new Enemy(this, 800, 100, false));
+    this.asteroidPool.add(new Asteroide(this,100,100,100,'asteroid'));
+    this.asteroidPool.add(new Asteroide(this,200,100,50,'asteroid'));
     this.physics.add.collider(this.bulletPool,this.senor,this.hitBullet,null,this); 
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.senor, this.collectCoins, null, this);
+    this.physics.add.collider(this.asteroidPool, this.senor, this.hitAsteroid, null, this);
   }
 
  
@@ -55,10 +61,17 @@ export default class Game extends Phaser.Scene {
       if(ship.divide){
         this.divide(ship);
       }
-      ship.receiveDamage();      
+      ship.receiveDamage(1);      
     }
 
   }
+  hitAsteroid(asteroide,ship){
+
+    this.asteroidPool.remove(asteroide);
+    asteroide.destroy();
+    ship.receiveDamage(50);    
+  }
+
   collectCoins(coinK)
   {
     this.score += coinK.value;  

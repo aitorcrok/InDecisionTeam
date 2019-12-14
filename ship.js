@@ -16,11 +16,12 @@ export default class Ship extends Entity{
     setVelocityY(y){
         this.body.setVelocity(this.body.velocity.x, this.speed * y);
     }
-    receiveDamage(){
-        this.health--;
-        if(this.health == 0){
+    receiveDamage(damage){
+        this.health -= damage;
+        if(this.health <= 0){
             this.destroy();
             console.log("die");
         }
     }
+    
 }
