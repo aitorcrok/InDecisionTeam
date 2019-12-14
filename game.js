@@ -1,7 +1,7 @@
 import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
-import Asteroide from '/asteroide.js'
+import Asteroide from '/InDecisionTeam/asteroide.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -82,8 +82,8 @@ export default class Game extends Phaser.Scene {
 
   divide(enemy)
   {
-    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false));
-    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false));
+    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy'));
+    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy'));
   }
 
   
