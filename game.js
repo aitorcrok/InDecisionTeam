@@ -13,6 +13,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');
     this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
     this.load.image('asteroid', '/InDecisionTeam/sprites/asteroid.png');
+    this.load.spritesheet('playerNew', '/InDecisionTeam/sprites/PlayerSpritesheet.png', {frameWidth: 84, frameWidth: 84});
   }
 
   create() {

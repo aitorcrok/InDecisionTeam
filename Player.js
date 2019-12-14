@@ -1,7 +1,7 @@
 import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
-        super(scene, 400, 400, 300, 'player', 3)
+        super(scene, 400, 400, 300, 'playerNew', 100)
         this.d = this.scene.input.keyboard.addKey('D');
         this.a = this.scene.input.keyboard.addKey('A');
         this.s = this.scene.input.keyboard.addKey('S');
@@ -19,17 +19,26 @@ export default class Player extends Ship{
         this.parryAT = 1500;    //active time
         this.parryCD = 3000;    //cooldown
         this.spacebar = this.scene.input.keyboard.addKey('SPACE');
-
+        this.nextFrame = 0;
     }
     preUpdate(t, dt){
         this.cooldown = Math.max(0, this.cooldown - dt);
         if(this.spacebar.isDown && this.cooldown == 0){
+            this.nextFrame++;
+            this.setFrame(this.nextFrame);
             this.parry = true;
             this.cooldown = this.parryCD;                               //despues de X ms puede volver a hacerlo
-        } else if(this.cooldown < this.parryAT) this.parry = false;     //después de X ms deja de devolver proyectiles
+        } else if(this.parry && this.cooldown < this.parryAT){
+            this.parry = false;                                         //después de X ms deja de devolver proyectiles
+            this.nextFrame = (this.nextFrame + 1) % 4;
+            this.setFrame(this.nextFrame);  
+        }
         if(this.y < 500){   //habria que mirar como hacer esto menos horrible
             this.y = 500;
         }
+        // super.preUpdate(t, dt){
+
+        // }
     }
     receiveDamage(damage){
         this.health -= damage;
