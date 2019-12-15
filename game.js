@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
     this.player = new Player(this);
-    this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this); 
+    this.playerCollider = this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this);
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.u = this.input.keyboard.addKey('U');
@@ -79,31 +79,29 @@ export default class Game extends Phaser.Scene {
     this.changingLevel = false;
   }
   hitBullet(bullet, ship){
-
-    if(ship.parry){
-      var desvio = 0;
-      if(bullet.x < ship.x){
-        desvio = ship.x -bullet.x;
-        bullet.body.setVelocity(-10*desvio, -bullet.speed);
+      if(ship.parry){
+        var desvio = 0;
+        if(bullet.x < ship.x){
+          desvio = ship.x -bullet.x;
+          bullet.body.setVelocity(-10*desvio, -bullet.speed);
+        }
+        else if(bullet.x > ship.x){
+          desvio = bullet.x - ship.x;
+          bullet.body.setVelocity(10*desvio, -bullet.speed);
+        }
+        else{
+          bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
+        }
+        this.bulletPool.remove(bullet);
+        this.returnedBulletPool.add(bullet);
       }
-      else if(bullet.x > ship.x){
-        desvio = bullet.x - ship.x;
-        bullet.body.setVelocity(10*desvio, -bullet.speed);
+      else if(!ship.immune){
+        bullet.destroy();
+        if(ship.divide){
+          this.divide(ship);
+        }
+        ship.receiveDamage(1);      
       }
-      else{
-        bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
-      }
-      this.bulletPool.remove(bullet);
-      this.returnedBulletPool.add(bullet);
-    }
-    else{
-      bullet.destroy();
-      if(ship.divide){
-        this.divide(ship);
-      }
-      ship.receiveDamage(1);      
-    }
-
   }
   hitAsteroid(asteroide,ship){
 
