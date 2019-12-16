@@ -2,14 +2,15 @@ import Ship from '/InDecisionTeam/ship.js';
 import Bullet from '/InDecisionTeam/bullet.js'
 import Coin from '/InDecisionTeam/coin.js'
 export default class Enemy extends Ship{
-    constructor(scene, x, y,divide,sprite){
+    constructor(scene, x, y,divide,sprite, bullSpX, bullSpY){
         super(scene, x, y, 0, sprite, 1);
         this.divide = divide;
         this.setScale(0.5);
         this.time = 0;
         this.delayShots = Math.random() * (500 - 1000) + 1000;
-        console.log(this.delayShots);
         this.startShoot();
+        this._bullSpX = bullSpX;
+        this._bullSpY = bullSpY;
         }
     startShoot(){
         this.timer = this.scene.time.addEvent({
@@ -20,7 +21,7 @@ export default class Enemy extends Ship{
         });
     }
     shoot(){
-        var bu = new Bullet(this.scene, this.x, this.y, 500, 'bullet');        
+        var bu = new Bullet(this.scene, this.x, this.y, this._bullSpX, this._bullSpY, 'bullet');        
     }
     stopShoot(){
         this.timer.remove();
@@ -37,5 +38,9 @@ export default class Enemy extends Ship{
     spawnCoins(){
         var coin = new Coin(this.scene, this.x, this.y, 400, 'coin');
         console.log("coin");
+    }
+    getBullSp(which){
+        if(which === 'x') return this._bullSpX;
+        else if(which === 'y') return this._bullSpY;
     }
 }

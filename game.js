@@ -53,27 +53,28 @@ export default class Game extends Phaser.Scene {
     this.u.isDown = false;
     this.changingScene = false;
     this.scene.run("menu");
-    this.scene.sleep("main");
+    this.scene.sleep("hud");
+    this.scene.sleep("game");
   }
   createLevel(level){   //Carga el nivel (mirar una forma mejor?)
     switch(level){
       case 1:
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 500));
         break;
       case 2:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 100, 500));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 200, 500));
+          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 300, 500));
+          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 400, 500));
           break;
       case 3:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 700, 250, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 500, 250, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 300, 250, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 0, 250));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 250));
+          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 150, 400));
+          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 150, 400));
+          this.enemyPool.add(new Enemy(this, 700, 250, false, 'std_enemy', -150, 250));
+          this.enemyPool.add(new Enemy(this, 500, 250, false, 'std_enemy', 500, 250));
+          this.enemyPool.add(new Enemy(this, 300, 250, false, 'std_enemy', -500, 250));
           break;
     }
     this.changingLevel = false;
@@ -114,14 +115,13 @@ export default class Game extends Phaser.Scene {
   {
     this.score += coinK.value; 
     this.scene.manager.getScene("hud").updateScore(this.score);
-    //this.hud.setText("Puntuación: " + this.score);
     this.coinPool.remove(coinK);
     coinK.destroy();      
   }
 
   divide(enemy)
   {
-    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy'));
-    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy'));
+    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy', enemy.getBullSp('x'), enemy.getBullSp('y')));
+    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy', -enemy.getBullSp('x'), enemy.getBullSp('y')));
   }
 }
