@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
     this.returnedBulletPool = this.add.group();
     this.enemyPool = this.add.group();
     this.player = new Player(this);
-    this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this); 
+    this.playerCollider = this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this);
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.u = this.input.keyboard.addKey('U');
@@ -53,57 +53,56 @@ export default class Game extends Phaser.Scene {
     this.u.isDown = false;
     this.changingScene = false;
     this.scene.run("menu");
-    this.scene.sleep("main");
+    this.scene.sleep("hud");
+    this.scene.sleep("game");
   }
   createLevel(level){   //Carga el nivel (mirar una forma mejor?)
     switch(level){
       case 1:
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 500));
         break;
       case 2:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 100, 500));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 200, 500));
+          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 300, 500));
+          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 400, 500));
           break;
       case 3:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy'));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 700, 250, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 500, 250, false, 'std_enemy'));
-          this.enemyPool.add(new Enemy(this, 300, 250, false, 'std_enemy'));
+          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 0, 250));
+          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 250));
+          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 150, 400));
+          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 150, 400));
+          this.enemyPool.add(new Enemy(this, 700, 250, false, 'std_enemy', -150, 250));
+          this.enemyPool.add(new Enemy(this, 500, 250, false, 'std_enemy', 500, 250));
+          this.enemyPool.add(new Enemy(this, 300, 250, false, 'std_enemy', -500, 250));
           break;
     }
     this.changingLevel = false;
   }
   hitBullet(bullet, ship){
-
-    if(ship.parry){
-      var desvio = 0;
-      if(bullet.x < ship.x){
-        desvio = ship.x -bullet.x;
-        bullet.body.setVelocity(-10*desvio, -bullet.speed);
+      if(ship.parry){
+        var desvio = 0;
+        if(bullet.x < ship.x){
+          desvio = ship.x -bullet.x;
+          bullet.body.setVelocity(-10*desvio, -bullet.speed);
+        }
+        else if(bullet.x > ship.x){
+          desvio = bullet.x - ship.x;
+          bullet.body.setVelocity(10*desvio, -bullet.speed);
+        }
+        else{
+          bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
+        }
+        this.bulletPool.remove(bullet);
+        this.returnedBulletPool.add(bullet);
       }
-      else if(bullet.x > ship.x){
-        desvio = bullet.x - ship.x;
-        bullet.body.setVelocity(10*desvio, -bullet.speed);
+      else if(!ship.immune){
+        bullet.destroy();
+        if(ship.divide){
+          this.divide(ship);
+        }
+        ship.receiveDamage(1);      
       }
-      else{
-        bullet.body.setVelocity(2+ Math.random()*8, -bullet.speed);
-      }
-      this.bulletPool.remove(bullet);
-      this.returnedBulletPool.add(bullet);
-    }
-    else{
-      bullet.destroy();
-      if(ship.divide){
-        this.divide(ship);
-      }
-      ship.receiveDamage(1);      
-    }
-
   }
   hitAsteroid(asteroide,ship){
 
@@ -116,14 +115,13 @@ export default class Game extends Phaser.Scene {
   {
     this.score += coinK.value; 
     this.scene.manager.getScene("hud").updateScore(this.score);
-    //this.hud.setText("Puntuación: " + this.score);
     this.coinPool.remove(coinK);
     coinK.destroy();      
   }
 
   divide(enemy)
   {
-    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy'));
-    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy'));
+    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy', enemy.getBullSp('x'), enemy.getBullSp('y')));
+    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy', -enemy.getBullSp('x'), enemy.getBullSp('y')));
   }
 }

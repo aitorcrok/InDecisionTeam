@@ -1,7 +1,7 @@
 import Entity from '/InDecisionTeam/entity.js';
 export default class Ship extends Entity{
     constructor(scene, newX, newY, newSpeed, sprite, newHealth){
-        super(scene, newX, newY, 0, sprite);
+        super(scene, newX, newY, 0, 0, sprite);
         this.scene.add.existing(this);
         this.health = newHealth;
         this.speed = newSpeed;

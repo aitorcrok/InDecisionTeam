@@ -16,8 +16,9 @@ export default class Menu extends Phaser.Scene {
     change(){
         this.u.isDown = false;
         this.changing = false;
-        this.scene.run("main");
-        this.scene.sleep("hud");        
+        this.scene.run("game");
+        this.scene.run("hud")
+        this.scene.sleep("menu");        
     }
     metod(){
         console.log("it works");

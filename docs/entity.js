@@ -1,10 +1,10 @@
 export default class Entity extends Phaser.GameObjects.Sprite{
-    constructor(scene, newX, newY,newSpeed,sprite){
+    constructor(scene, newX, newY, speedX, speedY, sprite){
         let x = newX;
         let y = newY;
         super(scene, x, y, sprite);
         this.scene.physics.add.existing(this);
-        this.body.setVelocity(0, newSpeed);
+        this.body.setVelocity(speedX, speedY);
         this.body.immovable = true;       
     }
     preUpdate(){
