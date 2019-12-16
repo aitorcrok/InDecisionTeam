@@ -2,7 +2,7 @@ import Ship from '/InDecisionTeam/ship.js';
 import Bullet from '/InDecisionTeam/bullet.js'
 import Coin from '/InDecisionTeam/coin.js'
 export default class Enemy extends Ship{
-    constructor(scene, x, y,divide,sprite, bullSpX, bullSpY){
+    constructor(scene, x, y,divide,sprite, bullSpX, bullSpY, divPos1){
         super(scene, x, y, 0, sprite, 1);
         this.divide = divide;
         this.setScale(0.5);
@@ -11,6 +11,7 @@ export default class Enemy extends Ship{
         this.startShoot();
         this._bullSpX = bullSpX;
         this._bullSpY = bullSpY;
+        this.divPos1 = divPos1;
         }
     startShoot(){
         this.timer = this.scene.time.addEvent({

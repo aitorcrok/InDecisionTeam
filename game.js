@@ -2,6 +2,7 @@ import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
 import Asteroide from '/InDecisionTeam/asteroide.js'
+import LevelManager from '/InDecisionTeam/levelManager.js'
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
@@ -18,7 +19,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
-    this.level = 0;
+    this.level = 1;
     this.scene.run("hud");
     this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
@@ -36,6 +37,7 @@ export default class Game extends Phaser.Scene {
     this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
     this.t.on('down', event => {this.scene.manager.getScene("hud").metod()});
+    this.levelManager = new LevelManager(this, 0);
   }
   update(time, deltaTime){
     if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
@@ -44,7 +46,7 @@ export default class Game extends Phaser.Scene {
   }
     if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
       this.level++;
-      this.time.delayedCall(this.changeLevel, this.createLevel, [this.level], this);
+      this.time.delayedCall(this.changeLevel, this.levelManager.changeLevel, [this.level], this);
       this.changingLevel = true;
     }
   }
@@ -53,8 +55,8 @@ export default class Game extends Phaser.Scene {
     this.u.isDown = false;
     this.changingScene = false;
     this.scene.run("menu");
-    this.scene.sleep("hud");
-    this.scene.sleep("game");
+    this.scene.pause("hud");
+    this.scene.pause("game");
   }
   createLevel(level){   //Carga el nivel (mirar una forma mejor?)
     switch(level){

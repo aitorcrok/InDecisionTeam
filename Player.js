@@ -16,7 +16,7 @@ export default class Player extends Ship{
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
         this.body.setSize(42, 22, false);           //Ajusta la caja de colisiones
         this.body.setOffset(21, 22);
-        this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 500, 1400, 300));
+        this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 600, 1400, 200));
         this.parry = false;
         this.cooldown = 0;
         this.parryAT = 1500;    //active time
@@ -27,9 +27,6 @@ export default class Player extends Ship{
         this.flashAnim = null;     
     }
     preUpdate(t, dt){
-        console.log(this.body.position);
-        console.log(this.body.checkWorldBounds());
-        this.body.checkWorldBounds();
         this.cooldown = Math.max(0, this.cooldown - dt);
         if(this.spacebar.isDown && this.cooldown == 0){
             this.body.setSize(42, 44, false);
