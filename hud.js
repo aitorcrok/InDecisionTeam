@@ -10,6 +10,7 @@ export default class HUD extends Phaser.Scene {
         this.healthIcon2 = this.add.image(1340, 40, 'health');
         this.healthIcon3 = this.add.image(1380, 40, 'health');
         this.score = this.add.text(20, 20, "Puntuación: 0", {fontSize: '48px', fontFamily: 'Megrim', resolution: 0});
+        this.updateScore(0);
     }
     updateScore(score){
         this.score.setText("Puntuación: " + score);

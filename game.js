@@ -22,7 +22,7 @@ export default class Game extends Phaser.Scene {
     this.scene.run("hud");
     this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
-    this.physics.world.setBoundsCollision(true, true, false, false);
+    this.physics.world.setBoundsCollision(true, true, true, true);
     this.bulletPool = this.add.group();
     this.coinPool = this.add.group();
     this.asteroidPool = this.add.group();
