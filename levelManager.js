@@ -76,7 +76,7 @@ const levels = [
            {x: 300, y: 300, div: false, sprite: 'std_enemy', bullSpX: -500, bullSpY: 250}]
         },
     //Level 7
-    {name: "MeatShield",
+    {name: "Abre la boca que viene la sopa",
      enemies:[{x: 700, y: 150, div: true, sprite: 'div_enemy', bullSpX: -400, bullSpY: 250, div1: {x: 600, y: 150, bullSpX: -250, bullSpY: 300}, div2: {x: 800, y: 150, bullSpX: 250, bullSpY: 300}},
             {x: 250, y: 300, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},
             {x: 400, y: 300, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},

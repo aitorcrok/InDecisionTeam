@@ -19,7 +19,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
-    this.level = 0;
+    this.level = 6;
     this.scene.run("hud");
     this.changeLevel = 1500;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
