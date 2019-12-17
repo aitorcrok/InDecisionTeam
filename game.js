@@ -7,6 +7,10 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
   }
+  init(level){
+    this.level = level;
+    if(this.level < 0) this.level = 0;
+  }
   preload() {  
     this.load.image('player', '/InDecisionTeam/sprites/player.png');
     this.load.image('std_enemy', '/InDecisionTeam/sprites/std_enemy.png');
@@ -19,7 +23,6 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
-    this.level = 0;
     this.scene.run("hud");
     this.changeLevel = 1500;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
@@ -37,18 +40,24 @@ export default class Game extends Phaser.Scene {
     this.u = this.input.keyboard.addKey('U');
     this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
-    this.t.on('down', event => {this.scene.manager.getScene("hud").metod()});
     this.levelManager = new LevelManager();
   }
   update(time, deltaTime){
     if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
       this.changingScene = true;
       this.change();
-  }
+    }
     if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
-      this.level++;
-      this.time.delayedCall(this.changeLevel, this.levelManager.changeLevel, [this.level], this);
-      this.changingLevel = true;
+      if(this.level <= this.levelManager.numLevels - 1){
+        this.level++;
+        this.time.delayedCall(this.changeLevel, this.levelManager.changeLevel, [this.level], this);
+        this.changingLevel = true;
+      }
+      else if(this.level > this.levelManager.numLevels - 1){
+        this.scene.run("end menu", this.score);
+        this.scene.sleep("hud");
+        this.scene.sleep("game");
+      }
     }
   }
   //cambia de escena

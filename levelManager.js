@@ -150,6 +150,7 @@ const levels = [
 ]
 export default class LevelManager{
     constructor(){
+        this.numLevels = 10;
     }
     changeLevel(level){
         var counter = 0;

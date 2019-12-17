@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
     <link href="https://fonts.googleapis.com/css?family=Megrim&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"> 
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="game.css">
     <script src="phaser.min.js"></script>
@@ -22,6 +21,8 @@
         import Menu from './menu.js';
         import HUD from './hud.js';
         import MainMenu from './mainMenu.js';
+        import EndMenu from './menuEnd.js';
+        import LevelSelector from './levelSelector.js';
         var config = {
             type: Phaser.AUTO,
             width: 1400,
@@ -34,7 +35,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ MainMenu, Game, Menu, HUD ],
+            scene: [ MainMenu, Game, Menu, HUD, EndMenu, LevelSelector ],
             physics: { default: 'arcade', arcade: { gravity: false, debug: true } }
         };
         new Phaser.Game(config);
