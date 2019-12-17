@@ -7,19 +7,26 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
   }
-  preload() {  
+  init(level){
+    this.level = level;
+    if(this.level < 0) this.level = 0;
+  }
+  preload() { 
+    this.load.image('fondo', '/InDecisionTeam/sprites/fondo.jpg');
+    this.load.image('fade', '/InDecisionTeam/sprites/fade.png');
     this.load.image('player', '/InDecisionTeam/sprites/player.png');
     this.load.image('std_enemy', '/InDecisionTeam/sprites/std_enemy.png');
     this.load.image('div_enemy', '/InDecisionTeam/sprites/div_enemy.png');
     this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');
     this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
     this.load.image('asteroid', '/InDecisionTeam/sprites/asteroid.png');
-    this.load.spritesheet('playerNew', '/InDecisionTeam/sprites/PlayerSpritesheet.png', {frameWidth: 84, frameWidth: 84});
+    this.load.spritesheet('playerNew', '/InDecisionTeam/sprites/PlayerSpritesheet.png', {frameWidth: 84, frameWidth: 84});   
   }
 
-  create() {
+  create() {  
+    this.add.image(0, 0, 'fondo').setOrigin(0, 0);   
+    this.add.image(0, 450, 'fade').setOrigin(0, 0);   
     this.score = 0;
-    this.level = 0;
     this.scene.run("hud");
     this.changeLevel = 1500;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
@@ -35,20 +42,25 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.physics.add.collider(this.asteroidPool, this.player, this.hitAsteroid, null, this);
     this.u = this.input.keyboard.addKey('U');
-    this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
-    this.t.on('down', event => {this.scene.manager.getScene("hud").metod()});
     this.levelManager = new LevelManager();
   }
   update(time, deltaTime){
     if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
       this.changingScene = true;
       this.change();
-  }
+    }
     if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
-      this.level++;
-      this.time.delayedCall(this.changeLevel, this.levelManager.changeLevel, [this.level], this);
-      this.changingLevel = true;
+      if(this.level <= this.levelManager.numLevels - 1){
+        this.level++;
+        this.time.delayedCall(this.changeLevel, this.levelManager.changeLevel, [this.level], this);
+        this.changingLevel = true;
+      }
+      else if(this.level > this.levelManager.numLevels - 1){
+        this.scene.run("end menu", this.score);
+        this.scene.sleep("hud");
+        this.scene.sleep("game");
+      }
     }
   }
   //cambia de escena
