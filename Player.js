@@ -19,8 +19,8 @@ export default class Player extends Ship{
         this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 600, 1400, 200));
         this.parry = false;
         this.cooldown = 0;
-        this.parryAT = 1500;    //active time
-        this.parryCD = 3000;    //cooldown
+        this.parryAT = 1000;    //active time
+        this.parryCD = 400;    //cooldown
         this.spacebar = this.scene.input.keyboard.addKey('SPACE');
         this.nextFrame = 0;
         this.immune = false;
@@ -34,8 +34,8 @@ export default class Player extends Ship{
             this.nextFrame++;
             this.setFrame(this.nextFrame);
             this.parry = true;
-            this.cooldown = this.parryCD;                               //despues de X ms puede volver a hacerlo
-        } else if(this.parry && this.cooldown < this.parryAT){
+            this.cooldown = this.parryAT;                               //despues de X ms puede volver a hacerlo
+        } else if(this.parry && this.cooldown < this.parryCD){
             this.parry = false;                                         //después de X ms deja de devolver proyectiles
             this.nextFrame = (this.nextFrame + 1) % 4;
             this.setFrame(this.nextFrame); 

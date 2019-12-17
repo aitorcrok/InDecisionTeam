@@ -19,7 +19,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
-    this.level = 1;
+    this.level = 5;
     this.scene.run("hud");
     this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
@@ -37,7 +37,7 @@ export default class Game extends Phaser.Scene {
     this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
     this.t.on('down', event => {this.scene.manager.getScene("hud").metod()});
-    this.levelManager = new LevelManager(this, 0);
+    this.levelManager = new LevelManager();
   }
   update(time, deltaTime){
     if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
@@ -57,29 +57,6 @@ export default class Game extends Phaser.Scene {
     this.scene.run("menu");
     this.scene.pause("hud");
     this.scene.pause("game");
-  }
-  createLevel(level){   //Carga el nivel (mirar una forma mejor?)
-    switch(level){
-      case 1:
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 500));
-        break;
-      case 2:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 100, 500));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 200, 500));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 300, 500));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 400, 500));
-          break;
-      case 3:
-          this.enemyPool.add(new Enemy(this, 200, 100, true, 'div_enemy', 0, 250));
-          this.enemyPool.add(new Enemy(this, 400, 100, false, 'std_enemy', 0, 250));
-          this.enemyPool.add(new Enemy(this, 600, 100, true, 'div_enemy', 150, 400));
-          this.enemyPool.add(new Enemy(this, 800, 100, false, 'std_enemy', 150, 400));
-          this.enemyPool.add(new Enemy(this, 700, 250, false, 'std_enemy', -150, 250));
-          this.enemyPool.add(new Enemy(this, 500, 250, false, 'std_enemy', 500, 250));
-          this.enemyPool.add(new Enemy(this, 300, 250, false, 'std_enemy', -500, 250));
-          break;
-    }
-    this.changingLevel = false;
   }
   hitBullet(bullet, ship){
       if(ship.parry){
@@ -106,11 +83,15 @@ export default class Game extends Phaser.Scene {
         ship.receiveDamage(1);      
       }
   }
+  killedEnemy(points){
+    this.score += points;
+    this.scene.manager.getScene("hud").updateScore(this.score);
+  }
   hitAsteroid(asteroide,ship){
 
     this.asteroidPool.remove(asteroide);
     asteroide.destroy();
-    ship.receiveDamage(50);    
+    ship.receiveDamage(1);    
   }
 
   collectCoins(coinK)
@@ -123,7 +104,7 @@ export default class Game extends Phaser.Scene {
 
   divide(enemy)
   {
-    this.enemyPool.add(new Enemy(this, enemy.x + 50, enemy.y,false,'std_enemy', enemy.getBullSp('x'), enemy.getBullSp('y')));
-    this.enemyPool.add(new Enemy(this, enemy.x - 50, enemy.y,false,'std_enemy', -enemy.getBullSp('x'), enemy.getBullSp('y')));
+    this.enemyPool.add(new Enemy(this, enemy.div1.x, enemy.div1.y ,false,'std_enemy', enemy.div1.bullSpX, enemy.div1.bullSpY));
+    this.enemyPool.add(new Enemy(this, enemy.div2.x, enemy.div2.y,false,'std_enemy', enemy.div2.bullSpX, enemy.div2.bullSpY));
   }
 }
