@@ -5,8 +5,10 @@ export default class LevelSelector extends Phaser.Scene {
     }
     preload(){
         this.load.image('button','/InDecisionTeam/sprites/grey_button00.png');
+        this.load.image('fondo', '/InDecisionTeam/sprites/fondo.jpg');
     }
     create(){
+        this.add.image(0, 0, 'fondo').setOrigin(0, 0);   
         this.button1 = new Button(this, 350, 100, 'button', 'game', -1);
         this.button2 = new Button(this, 700, 100, 'button', 'game', 1);
         this.button3 = new Button(this, 1050, 100, 'button', 'game', 2);

@@ -11,17 +11,21 @@ export default class Game extends Phaser.Scene {
     this.level = level;
     if(this.level < 0) this.level = 0;
   }
-  preload() {  
+  preload() { 
+    this.load.image('fondo', '/InDecisionTeam/sprites/fondo.jpg');
+    this.load.image('fade', '/InDecisionTeam/sprites/fade.png');
     this.load.image('player', '/InDecisionTeam/sprites/player.png');
     this.load.image('std_enemy', '/InDecisionTeam/sprites/std_enemy.png');
     this.load.image('div_enemy', '/InDecisionTeam/sprites/div_enemy.png');
     this.load.image('bullet', '/InDecisionTeam/sprites/new_bullet.png');
     this.load.image('coin', '/InDecisionTeam/sprites/coin.png');
     this.load.image('asteroid', '/InDecisionTeam/sprites/asteroid.png');
-    this.load.spritesheet('playerNew', '/InDecisionTeam/sprites/PlayerSpritesheet.png', {frameWidth: 84, frameWidth: 84});
+    this.load.spritesheet('playerNew', '/InDecisionTeam/sprites/PlayerSpritesheet.png', {frameWidth: 84, frameWidth: 84});   
   }
 
-  create() {
+  create() {  
+    this.add.image(0, 0, 'fondo').setOrigin(0, 0);   
+    this.add.image(0, 450, 'fade').setOrigin(0, 0);   
     this.score = 0;
     this.scene.run("hud");
     this.changeLevel = 1500;    //Tiempo que tarda en pasar de nivel
