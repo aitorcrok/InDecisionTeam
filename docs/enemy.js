@@ -1,16 +1,21 @@
 import Ship from '/InDecisionTeam/ship.js';
 import Bullet from '/InDecisionTeam/bullet.js'
 import Coin from '/InDecisionTeam/coin.js'
+const pointsPerEnemy = 50;
 export default class Enemy extends Ship{
-    constructor(scene, x, y,divide,sprite, bullSpX, bullSpY){
+    constructor(scene, x, y,divide,sprite, bullSpX, bullSpY, div1, div2){
         super(scene, x, y, 0, sprite, 1);
         this.divide = divide;
-        this.setScale(0.5);
+        this.setScale(0.75);
         this.time = 0;
         this.delayShots = Math.random() * (500 - 1000) + 1000;
         this.startShoot();
         this._bullSpX = bullSpX;
         this._bullSpY = bullSpY;
+        this.div1 = div1;
+        this.div2 = div2;
+        this.scene = scene;
+        this.pointsPerEnemy = 50;
         }
     startShoot(){
         this.timer = this.scene.time.addEvent({
@@ -30,6 +35,7 @@ export default class Enemy extends Ship{
         this.health--;
         if(this.health == 0){            
             this.stopShoot();
+            this.scene.killedEnemy(pointsPerEnemy);
             this.spawnCoins();            
             this.destroy();
         }

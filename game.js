@@ -19,9 +19,9 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.score = 0;
-    this.level = 6;
+    this.level = 0;
     this.scene.run("hud");
-    this.changeLevel = 1000;    //Tiempo que tarda en pasar de nivel
+    this.changeLevel = 1500;    //Tiempo que tarda en pasar de nivel
     this.changingLevel = false; //variable para controlar el paso de nivel
     this.physics.world.setBoundsCollision(true, true, true, true);
     this.bulletPool = this.add.group();
@@ -33,6 +33,7 @@ export default class Game extends Phaser.Scene {
     this.playerCollider = this.physics.add.collider(this.bulletPool,this.player,this.hitBullet,null,this);
     this.physics.add.collider(this.returnedBulletPool, this.enemyPool, this.hitBullet, null, this); 
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
+    this.physics.add.collider(this.asteroidPool, this.player, this.hitAsteroid, null, this);
     this.u = this.input.keyboard.addKey('U');
     this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});

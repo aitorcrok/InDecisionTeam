@@ -1,9 +1,9 @@
 import Entity from '/InDecisionTeam/entity.js';
 export default class Asteroid extends Entity{
-    constructor(scene, newX, newY,newSpeed,sprite){
-        super(scene, newX, newY, newSpeed, sprite);
+    constructor(scene, newX, newY,speedX, speedY,sprite){
+        super(scene, newX, newY, speedX, speedY, sprite);
         this.scene.asteroidPool.add(this.scene.add.existing(this));
-        this.speed = newSpeed;        
+        this.body.setCollideWorldBounds(false);
         this.setScale(0.1);
     }
     preUpdate(){

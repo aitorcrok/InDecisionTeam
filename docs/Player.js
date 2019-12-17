@@ -1,7 +1,7 @@
 import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
-        super(scene, 400, 400, 500, 'playerNew', 100)
+        super(scene, 700, 400, 500, 'playerNew', 100);
         this.d = this.scene.input.keyboard.addKey('D');
         this.a = this.scene.input.keyboard.addKey('A');
         this.s = this.scene.input.keyboard.addKey('S');
@@ -16,15 +16,15 @@ export default class Player extends Ship{
         this.w.on('up', event => {if(this.body.velocity.y < 0)this.setVelocityY(0)});
         this.body.setSize(42, 22, false);           //Ajusta la caja de colisiones
         this.body.setOffset(21, 22);
-        //this.body.setBoundsRectangle(0, 500, 1400, 300);      DE LA VERSIÓN 3.20 Y TENEMOS LA 3.19
+        this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 600, 1400, 200));
         this.parry = false;
         this.cooldown = 0;
-        this.parryAT = 1500;    //active time
-        this.parryCD = 3000;    //cooldown
+        this.parryAT = 1000;    //active time
+        this.parryCD = 400;    //cooldown
         this.spacebar = this.scene.input.keyboard.addKey('SPACE');
         this.nextFrame = 0;
         this.immune = false;
-        this.flashAnim = null;
+        this.flashAnim = null;     
     }
     preUpdate(t, dt){
         this.cooldown = Math.max(0, this.cooldown - dt);
@@ -34,16 +34,13 @@ export default class Player extends Ship{
             this.nextFrame++;
             this.setFrame(this.nextFrame);
             this.parry = true;
-            this.cooldown = this.parryCD;                               //despues de X ms puede volver a hacerlo
-        } else if(this.parry && this.cooldown < this.parryAT){
+            this.cooldown = this.parryAT;                               //despues de X ms puede volver a hacerlo
+        } else if(this.parry && this.cooldown < this.parryCD){
             this.parry = false;                                         //después de X ms deja de devolver proyectiles
             this.nextFrame = (this.nextFrame + 1) % 4;
             this.setFrame(this.nextFrame); 
             this.body.setSize(42, 22, false);
             this.body.setOffset(21, 22);
-        }
-        if(this.y < 500){   //habria que mirar como hacer esto menos horrible    ->  this.body.setBoundsRectangle(0, 500, 1400, 300); (Pero es de la 3.20) o poner un rectángulo
-            this.y = 500;
         }
     }
     receiveDamage(damage){
