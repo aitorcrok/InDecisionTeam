@@ -20,7 +20,6 @@ export default class Ship extends Entity{
         this.health -= damage;
         if(this.health <= 0){
             this.destroy();
-            console.log("die");
         }
     }
     

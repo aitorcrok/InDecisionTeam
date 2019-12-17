@@ -149,7 +149,7 @@
                     type: Phaser.AUTO,
                     width: 1400,
                     height: 800,
-                    pixelArt: true,
+                    pixelArt: false,
                     input: {
                         gamepad: true
                     },
@@ -158,7 +158,7 @@
                         autoCenter: Phaser.Scale.CENTER_BOTH
                     },
                     scene: [ MainMenu, Game, Menu, HUD, EndMenu, LevelSelector ],
-                    physics: { default: 'arcade', arcade: { gravity: false, debug: true } }
+                    physics: { default: 'arcade', arcade: { gravity: false, debug: false } }
                 };
                 new Phaser.Game(config);
             </script>

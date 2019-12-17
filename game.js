@@ -3,6 +3,7 @@ import Enemy from '/InDecisionTeam/enemy.js'
 import Coin from '/InDecisionTeam/coin.js';
 import Asteroide from '/InDecisionTeam/asteroide.js'
 import LevelManager from '/InDecisionTeam/levelManager.js'
+const pointsPerLife = 1000;
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
@@ -42,13 +43,13 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.physics.add.collider(this.asteroidPool, this.player, this.hitAsteroid, null, this);
     this.u = this.input.keyboard.addKey('U');
-    this.u.on('down', event => {this.change()});
+    this.u.on('down', event => {this.pauseMenu()});
     this.levelManager = new LevelManager();
   }
   update(time, deltaTime){
     if(!this.changingScene && this.u.isDown){   //Control del menu de pausa
       this.changingScene = true;
-      this.change();
+      this.pauseMenu();
     }
     if(this.enemyPool.getLength() == 0 && this.changingLevel != true){
       if(this.level <= this.levelManager.numLevels - 1){
@@ -57,14 +58,18 @@ export default class Game extends Phaser.Scene {
         this.changingLevel = true;
       }
       else if(this.level > this.levelManager.numLevels - 1){
-        this.scene.run("end menu", this.score);
-        this.scene.sleep("hud");
-        this.scene.sleep("game");
+        this.score += (this.player.getHealth() * pointsPerLife);
+        this.endMenu();
       }
     }
   }
   //cambia de escena
-  change(){
+  endMenu(){
+    this.scene.run("end menu", this.score);
+    this.scene.sleep("hud");
+    this.scene.sleep("game");
+  }
+  pauseMenu(){
     this.u.isDown = false;
     this.changingScene = false;
     this.scene.run("menu");

@@ -1,7 +1,7 @@
 import Ship from '/InDecisionTeam/ship.js';
 export default class Player extends Ship{
     constructor(scene){
-        super(scene, 700, 400, 500, 'playerNew', 5);
+        super(scene, 700, 400, 500, 'playerNew', 10);
         this.d = this.scene.input.keyboard.addKey('D');
         this.a = this.scene.input.keyboard.addKey('A');
         this.s = this.scene.input.keyboard.addKey('S');
@@ -46,13 +46,13 @@ export default class Player extends Ship{
     receiveDamage(damage){
         this.scene.scene.manager.getScene("hud").updateHealth(this.health - damage);
         this.body.reset(700 - this.body.halfWidth, 600);
-        super.receiveDamage(damage);
+        this.health -= damage;
         if(this.health > 0){
             this.flashAnim = this.scene.time.addEvent({delay: 125, callback: this.flash, callbackScope: this, loop: true});
             this.setTint(0xff0000);
             this.immune = true;
             var timer = this.scene.time.delayedCall(5000, this.deactivateImmunity, null, this);
-        }
+        }else this.scene.endMenu();
     }
     deactivateImmunity(){
         console.log("deinmune");
@@ -60,6 +60,9 @@ export default class Player extends Ship{
         this.flashAnim.remove();
         this.setVisible(true);
         this.clearTint();
+    }
+    getHealth(){
+        return this.health;
     }
     flash(){
         if(this.visible)
