@@ -1,5 +1,6 @@
+const base = 1220;
 export default class HUD extends Phaser.Scene {
-    constructor(){
+    constructor(lives){
         super({key: 'hud'});
     }
     preload(){
@@ -10,9 +11,7 @@ export default class HUD extends Phaser.Scene {
         this.header = this.add.image(700, 40, 'header');
         this.header.setScale(1400, 80);
         this.header.setTint(0x005500);
-        this.healthIcon1 = this.add.image(1300, 40, 'health');      //rework
-        this.healthIcon2 = this.add.image(1340, 40, 'health');
-        this.healthIcon3 = this.add.image(1380, 40, 'health');
+        this.health = [this.add.image(1380, 40, 'health'), this.add.image(1340, 40, 'health'), this.add.image(1300, 40, 'health'), this.add.image(1260, 40, 'health'), this.add.image(1220, 40, 'health')]
         this.score = this.add.text(20, 20, "Puntuación: 0", {fontSize: '48px', fontFamily: 'Megrim', color: 0xffffff});
         this.level = this.add.text(450, 20, "", {fontSize: '48px', fontFamily: 'Megrim', color: 0xffffff, align: 'center'});
         this.updateScore(0);
@@ -21,17 +20,7 @@ export default class HUD extends Phaser.Scene {
         this.score.setText("Puntuación: " + score);
     }
     updateHealth(health){
-        switch(health){
-            case 2:
-                this.healthIcon3.destroy();
-                break;
-            case 1:
-                this.healthIcon2.destroy();
-                break;
-            case 0:
-                this.healthIcon1.destroy();
-                break;
-        }
+        this.health[health].setVisible(false);
     }
     updateLevel(level){
         this.level.setText(level);
