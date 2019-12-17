@@ -42,7 +42,6 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.coinPool, this.player, this.collectCoins, null, this);
     this.physics.add.collider(this.asteroidPool, this.player, this.hitAsteroid, null, this);
     this.u = this.input.keyboard.addKey('U');
-    this.t = this.input.keyboard.addKey('T');
     this.u.on('down', event => {this.change()});
     this.levelManager = new LevelManager();
   }
