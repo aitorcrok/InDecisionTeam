@@ -46,7 +46,24 @@ const levels = [
             {x: 500, y: 350, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},
             {x: 900, y: 350, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500}],
      asteroids:[{x: 350, y: -200, speedX: 0, speedY: 200}, {x: 1050, y: -200, speedX: 0, speedY: 200}]
-    }
+    },
+    //Level 7
+    {name: "UwU",
+     enemies: [{x: 250, y: 100, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300},
+                {x: 450, y: 100, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 950, y: 100, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300},
+                {x: 1150, y: 100, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 250, y: 200, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300},
+                {x: 450, y: 200, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 950, y: 200, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300},
+                {x: 1150, y: 200, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 350, y: 300, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},
+                {x: 1050, y: 300, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},
+                {x: 500, y: 350, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300},
+                {x: 700, y: 350, div: false, sprite: 'std_enemy', bullSpX: 0, bullSpY: 500},
+                {x: 900, y: 350, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 600, y: 450, div: false, sprite: 'std_enemy', bullSpX: 250, bullSpY: 300},
+                {x: 800, y: 450, div: false, sprite: 'std_enemy', bullSpX: -250, bullSpY: 300}]}
 ]
 export default class LevelManager{
     constructor(){
@@ -62,7 +79,8 @@ export default class LevelManager{
             counter = 0;
             levels[level - 1].asteroids.forEach(asteroid =>
                 {this.asteroidPool.add(new Asteroid(this, levels[level-1].asteroids[counter].x, levels[level-1].asteroids[counter].y,
-                                                    levels[level-1].asteroids[counter].speedX, levels[level-1].asteroids[counter].speedY, 'asteroid'))})
+                                                    levels[level-1].asteroids[counter].speedX, levels[level-1].asteroids[counter].speedY, 'asteroid'));
+                 counter++;})
         } 
         this.changingLevel = false;
         if(level > 1)
