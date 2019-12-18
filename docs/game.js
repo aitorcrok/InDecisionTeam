@@ -1,7 +1,5 @@
 import Player from '/InDecisionTeam/Player.js'
 import Enemy from '/InDecisionTeam/enemy.js'
-import Coin from '/InDecisionTeam/coin.js';
-import Asteroide from '/InDecisionTeam/asteroide.js'
 import LevelManager from '/InDecisionTeam/levelManager.js'
 const pointsPerLife = 1000;
 export default class Game extends Phaser.Scene {

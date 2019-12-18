@@ -1,6 +1,6 @@
 import Enemy from '/InDecisionTeam/enemy.js';
 import Asteroid from '/InDecisionTeam/asteroide.js';
-const scorePerLevel = 500;
+const scorePerLevel = 1000;
 const levels = [
     //Level 1
     {name: "Nivel uno de verdad",
