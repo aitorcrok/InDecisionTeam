@@ -103,10 +103,11 @@ export default class Game extends Phaser.Scene {
     this.scene.manager.getScene("hud").updateScore(this.score);
   }
   hitAsteroid(asteroide,ship){
-
-    this.asteroidPool.remove(asteroide);
-    asteroide.destroy();
-    ship.receiveDamage(1);    
+    if(!ship.immune){
+      this.asteroidPool.remove(asteroide);
+      asteroide.destroy();
+      ship.receiveDamage(1); 
+    }   
   }
 
   collectCoins(coinK)
