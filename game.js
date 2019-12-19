@@ -63,8 +63,10 @@ export default class Game extends Phaser.Scene {
   //cambia de escena
   endMenu(){
     this.scene.run("end menu", this.score);
-    this.scene.sleep("hud");
-    this.scene.sleep("game");
+    this.scene.stop("hud");
+    //this.scene.sleep("hud");
+    this.scene.stop("game");
+    //this.scene.sleep("game");
   }
   pauseMenu(){
     this.u.isDown = false;
